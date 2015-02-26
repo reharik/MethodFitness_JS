@@ -13,7 +13,7 @@ var mongoose = require('mongoose'),
 
 
 exports.create = function *() {
-  console.log(JSON.stringify(req.body.item, null, '\t'));
+  console.log(JSON.stringify(this.body, null, '\t'));
   var body = yield parse(this);
   var client = new Client(body.item);
   var existingClient = yield Client.findOne({ 'Contact.EmailAddress': client.EmailAddress }).exec();

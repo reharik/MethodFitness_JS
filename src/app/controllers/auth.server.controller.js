@@ -31,10 +31,8 @@ exports.signOut = function *() {
 };
 
 exports.createUser = function *() {
-console.log("here I am");
   var body = yield parse(this);
-console.log("there I am");
-   console.log(JSON.stringify(body, null, '\t'));
+
   if (!body) {
     this.throw("The body is empty", 400);
   }
@@ -45,7 +43,6 @@ console.log("there I am");
   if (!body.password) {
     this.throw("Missing password", 400);
   }
-
 
   try {
     var user = new User(body);
