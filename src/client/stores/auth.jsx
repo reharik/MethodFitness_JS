@@ -89,7 +89,7 @@ function _postAndHandleParseUser (url, username, password, done) {
 function parseUser (user) {
   return {
     id: user.id,
-    username: user.username,
+    username: user.username
   };
 }
 

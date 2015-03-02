@@ -53,7 +53,7 @@ var SignIn = React.createClass({
       SignIn.attemptedTransition = null;
       transition.retry();
     } else {
-      this.replaceWith("index");
+      this.replaceWith("client-list");
     }
   },
   renderErrorBlock: function () {

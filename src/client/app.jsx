@@ -1,32 +1,33 @@
 "use strict";
-var React = window.React = require("react");
-var Router = require("react-router");
-var Route = Router.Route;
-var DefaultRoute = Router.DefaultRoute;
-var NotFoundRoute = Router.NotFoundRoute;
 
+var React = require("react");
 var Navbar = require("./components/navbar");
 var Layout = require("./pages/layout");
+var mfFluxxor = require("./mfFluxxor");
+var Fluxxor = require("Fluxxor");
+//var routes = require("./routes");
+var Router = require("react-router");
+var Route = Router.Route;
+console.log()
+var     container = document.getElementById("content"),
+    AuthStore = require("./stores/auth");
 
-var IndexPage = require("./pages/index");
-var NotFoundPage = require("./pages/notfound");
-var NullPage = require("./pages/null");
-var SignInPage = require("./pages/signin");
-var SignUpPage = require("./pages/signup");
-var SignOut = require("./pages/signout");
-
-var container = document.getElementById("content");
-
-var AuthStore = require("./stores/auth");
+var that = this;
 
 var App = React.createClass({
   displayName: "App",
 
   getInitialState: function() {
     return {
-      hasLoaded: false,
+      hasLoaded: false
     };
   },
+  getStateFromFlux: function(){
+  //    var flux = this.getFlux();
+  //  return{
+  //  };
+  },
+
   componentWillMount: function () {
     AuthStore.init();
   },
@@ -39,24 +40,36 @@ var App = React.createClass({
   updateLoading: function () {
     AuthStore.removeChangeListener(this.updateLoading);
     this.setState({
-      hasLoaded: true,
+      hasLoaded: true
     });
   },
 
   render: function () {
     return (
       <div>
-      <Navbar brand="React Koa Gulp Mongoose Mocha Demo" />
+      <Navbar brand="Method Fitness" />
       <Layout hasLoaded={this.state.hasLoaded}/>
       </div>
     );
   }
 });
 
+var DefaultRoute = Router.DefaultRoute;
+var NotFoundRoute = Router.NotFoundRoute;
+
+var ListClients = require("./pages/listClients");
+var AddClient = require("./pages/addClient");
+var NotFoundPage = require("./pages/notfound");
+var NullPage = require("./pages/null");
+var SignInPage = require("./pages/signin");
+var SignUpPage = require("./pages/signup");
+var SignOut = require("./pages/signout");
+
+
 var routes = (
-  <Route handler={App}>
-    <DefaultRoute name="index" handler={IndexPage} />
-    <Route name="null-page" path="/null" handler={NullPage} />
+  <Route handler={App} path="/">
+    <DefaultRoute name="client-list" handler={ListClients} />
+    <Route name="add-client" path="/addclient" handler={AddClient} />
     <Route name="profile" path="/profile" handler={NullPage} />
     <Route name="sign-in" path="/signin" handler={SignInPage} />
     <Route name="sign-up" path="/signup" handler={SignUpPage} />
@@ -66,7 +79,8 @@ var routes = (
 );
 
 Router.run(routes, Router.HashLocation, function (Handler) {
-  React.render(<Handler/>, container);
+  React.render(<Handler flux={that.mfFluxxor} />, container);
 });
+
 
 

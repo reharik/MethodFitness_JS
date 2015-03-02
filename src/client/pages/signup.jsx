@@ -39,6 +39,9 @@ var SignUp = React.createClass({
         <h1>Sign Up</h1>
         <Col md={4} mdOffset={4}>
           <form onSubmit={this.handleSubmit} className={this.state.error ? "has-error" : null}>
+            <Input type="text" ref="firstName" placeholder="First Name" label="First Name" />
+            <Input type="text" ref="lastName" placeholder="Last Name" label="Last Name" />
+            <Input type="email" ref="email" placeholder="Email" label="Email" />
             <Input type="text" ref="username" placeholder="username" label="Username" />
             <Input type="password" ref="password" placeholder="password" label="Password" />
             <Input type="password" ref="repeatPassword" placeholder="password" label="Repeat Password" />

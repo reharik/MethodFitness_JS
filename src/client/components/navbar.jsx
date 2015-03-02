@@ -41,7 +41,7 @@ var AppNavbar = React.createClass({
     });
   },
   renderBrand: function () {
-    return (<Link to="index">{this.props.brand}</Link>);
+    return (<Link to="client-list">{this.props.brand}</Link>);
   },
   renderNavLinks: function () {
     if (this.state.user) {
