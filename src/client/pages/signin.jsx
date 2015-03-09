@@ -9,42 +9,40 @@ var Col = require("react-bootstrap").Col;
 var Input = require("react-bootstrap").Input;
 var Button = require("react-bootstrap").Button;
 
-var AuthStore = require("../stores/auth");
+
+var Fluxxor = require("Fluxxor");
+var FluxMixin = Fluxxor.FluxMixin(React);
+var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var SignIn = React.createClass({
   displayName: "SignInPage",
-  mixins: [ Router.Navigation ],
+  mixins: [FluxMixin, StoreWatchMixin("authStore"), Router.Navigation ],
 
   statics: {
     attemptedTransition: null
   },
-  getInitialState: function () {
-    return {
-      error: false
-    };
-  },
 
-  componentWillMount: function () {
+  getStateFromFlux: function(){
     this.retryTransition();
-  },
-  componentDidMount: function() {
-    AuthStore.addChangeListener(this.retryTransition);
-  },
-  componentWillUnmount: function () {
-    AuthStore.removeChangeListener(this.retryTransition);
+    return{};
   },
 
   handleSubmit: function (e) {
     e.preventDefault();
     var username = this.refs.username.getValue();
     var password = this.refs.password.getValue();
-    AuthStore.signIn(username, password, function (err, user) {
-      if (err || !user) {
-        return this.setState({ error: true });
-      }
-      this.retryTransition();
+    this.getFlux().actions.signIn(username,password);
 
-    }.bind(this));
+
+
+
+    //AuthStore.signIn(username, password, function (err, user) {
+    //  if (err || !user) {
+    //    return this.setState({ error: true });
+    //  }
+    //  this.retryTransition();
+    //
+    //}.bind(this));
   },
 
   retryTransition: function () {
@@ -78,7 +76,7 @@ var SignIn = React.createClass({
         </Row>
         <Row>
           <Col md={6} mdOffset={3}>
-            <p>Don't have an account? You can <Link to="sign-up">sign up</Link></p>
+            <p>Dont have an account You can <Link to="sign-up">sign up</Link></p>
           </Col>
         </Row>
       </div>

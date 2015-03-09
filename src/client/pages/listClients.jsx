@@ -9,7 +9,7 @@ var FluxMixin = Fluxxor.FluxMixin(React),
 
 module.exports = React.createClass({
   displayName: "Client List",
-  mixins: [Authentication, FluxMixin, StoreWatchMixin("clientSummaryStore")],
+  mixins: [FluxMixin, StoreWatchMixin("clientSummaryStore")],//,Authentication ],
 
   getInitialState:function(){
     return {
@@ -23,7 +23,7 @@ module.exports = React.createClass({
     return {
       loading: store.loading,
       error: store.error,
-      clientSummaries: _.values(store.clientSummaries)
+      clientSummaries: _.values(store.getClientSummaries())
     };
   },
 

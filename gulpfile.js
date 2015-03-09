@@ -49,7 +49,7 @@ gulp.task("copy-js", function () {
 gulp.task("app-compile", ["jsx-compile", "copy-js"], function() {
   return browserify({
        entries: paths.in.app,
-       debug: DEBUG,
+       debug: DEBUG
      })
     .require("react")
     .transform(shim)
@@ -62,7 +62,7 @@ gulp.task("app-compile", ["jsx-compile", "copy-js"], function() {
 gulp.task("admin-compile", ["jsx-compile", "copy-js"], function() {
   return browserify({
        entries: paths.in.adminApp,
-       debug: DEBUG,
+       debug: DEBUG
      })
     .require("react")
     .ignore("moment")

@@ -1,9 +1,14 @@
-var React = window.React = require("react");
+"use strict";
+
+var React = require("react");
 var Router = require("react-router");
 var Route = Router.Route;
 var DefaultRoute = Router.DefaultRoute;
 var NotFoundRoute = Router.NotFoundRoute;
+var flux = require("./mfFluxxor");
 
+
+//var App = require("./app");
 var ListClients = require("./pages/listClients");
 var AddClient = require("./pages/addClient");
 var NotFoundPage = require("./pages/notfound");
@@ -12,9 +17,10 @@ var SignInPage = require("./pages/signin");
 var SignUpPage = require("./pages/signup");
 var SignOut = require("./pages/signout");
 
+var container = document.getElementById("content");
 
-module.exports = (
-  <Route handler={App} path="/">
+var routes = (
+  <Route>
     <DefaultRoute name="client-list" handler={ListClients} />
     <Route name="add-client" path="/addclient" handler={AddClient} />
     <Route name="profile" path="/profile" handler={NullPage} />
@@ -26,3 +32,6 @@ module.exports = (
 );
 
 
+Router.run(routes, Router.HashLocation, function (Handler) {
+  React.render(<Handler flux={flux} />, container);
+});

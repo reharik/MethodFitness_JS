@@ -4,7 +4,6 @@
 var Fluxxor = require("fluxxor"),
   constants = require("./../mfConstants");
 
-
 var clientSummaryStore = Fluxxor.createStore({
   initalize: function() {
     this.loading = false;
@@ -37,8 +36,16 @@ var clientSummaryStore = Fluxxor.createStore({
       this.loading = false;
       this.error = payload.error;
       this.emit("change");
-    }
+    },
+  getClientSummaries: function(){
+    return this.clientSummaries;
+  },
+  getLoading: function(){
+    return this.loading;
+  },
+  getError: function(){
+    return this.errror;
+  }
 
 });
-
-module.export = new clientSummaryStore();
+module.export =  new clientSummaryStore();

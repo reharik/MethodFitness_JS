@@ -1,5 +1,5 @@
 var React = require("react");
-var AuthStore = require("../stores/auth");
+var AuthStore = require("../stores/authStore");
 var Router = require("react-router");
 
 var SignOut = React.createClass({

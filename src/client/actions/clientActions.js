@@ -5,7 +5,7 @@ var Fluxxor = require("fluxxor"),
   constants = require("./../mfConstants");
 
 var actions = {
-  onTrainerGeneratedClientSignedUp: function(client){
+  TrainerGeneratedClientSignedUp: function(client){
     this.dispatch(constants.CLIENTS.TRAINER_GENERATED_CLIENT_SIGNED_UP, {client: client});
 
     clientRepository.save(function(client) {

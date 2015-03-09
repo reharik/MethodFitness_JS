@@ -5,7 +5,7 @@ var Col = require("react-bootstrap").Col;
 var Input = require("react-bootstrap").Input;
 var Button = require("react-bootstrap").Button;
 
-var AuthStore = require("../stores/auth");
+var AuthStore = require("../stores/authStore");
 
 var SignUp = React.createClass({
   displayName: "SignUp",

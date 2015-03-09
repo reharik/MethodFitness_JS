@@ -11,35 +11,25 @@ var Glyphicon = require("react-bootstrap").Glyphicon;
 var ReactRouterBootstrap = require('react-router-bootstrap');
 var NavItemLink = ReactRouterBootstrap.NavItemLink;
 
-var AuthStore = require("../stores/auth");
+var Fluxxor = require("Fluxxor");
+var FluxMixin = Fluxxor.FluxMixin(React);
+var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var AppNavbar = React.createClass({
   displayName: "AppNavbar",
   propTypes: {
-    brand: PropTypes.string,
+    brand: PropTypes.string
   },
-  getInitialState: function() {
-    return {
-      user: AuthStore.getUser(),
-    };
-  },
-  componentWillMount: function () {
-    AuthStore.init();
-  },
-  componentDidMount: function () {
-    AuthStore.addChangeListener(this.updateUser);
-  },
-  componentWillUnmount: function() {
-    AuthStore.removeChangeListener(this.updateUser);
-  },
-  updateUser: function () {
-    if(!this.isMounted()) {
-      return;
-    }
+  mixins: [FluxMixin, StoreWatchMixin("authStore")],
+
+  getStateFromFlux: function(){
+    var authStore = this.getFlux().store("authStore");
+    debugger;
     this.setState({
-      user: AuthStore.getUser(),
+      user: authStore.getUser()
     });
   },
+
   renderBrand: function () {
     return (<Link to="client-list">{this.props.brand}</Link>);
   },

@@ -6,7 +6,7 @@ var Fluxxor = require("fluxxor"),
   clientRepository = require("./../repositories/clientRepository");
 
 var actions = {
-  onLoadClients: function(){
+  loadClients: function(){
     this.dispatch(constants.CLIENTS.LOAD_CLIENTS, {});
 
     clientRepository.loadClientSummaries(function(payload) {

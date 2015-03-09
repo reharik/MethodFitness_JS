@@ -12,11 +12,15 @@ var DropdownButton = require("react-bootstrap").DropdownButton;
 var ReactRouterBootstrap = require('react-router-bootstrap');
 var ButtonLink = ReactRouterBootstrap.ButtonLink;
 
-var AuthStore = require("../stores/auth");
+var Fluxxor = require("Fluxxor");
+var FluxMixin = Fluxxor.FluxMixin(React);
+var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var Layout = React.createClass({
+  mixins: [FluxMixin, StoreWatchMixin("authStore")],
   render: function() {
-    if (!AuthStore.isLoggedIn()) {
+    var authStore = this.getFlux().store("authStore");
+    if (!authStore.isLoggedIn()) {
       return (
         <Jumbotron>
           <div className="container">
