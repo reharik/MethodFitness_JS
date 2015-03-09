@@ -48,4 +48,4 @@ var clientSummaryStore = Fluxxor.createStore({
   }
 
 });
-module.export =  new clientSummaryStore();
+module.export = clientSummaryStore;

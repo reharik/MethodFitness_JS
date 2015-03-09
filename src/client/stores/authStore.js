@@ -112,4 +112,4 @@ var AuthStore = Fluxxor.createStore({
 
 });
 
-module.export = new AuthStore();
+module.export = AuthStore;

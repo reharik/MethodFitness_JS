@@ -26,4 +26,4 @@ var clientStore = Fluxxor.createStore({
   }
 });
 
-module.export = new clientStore();
+module.export = clientStore;
