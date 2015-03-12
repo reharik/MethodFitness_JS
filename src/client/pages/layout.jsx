@@ -14,10 +14,10 @@ var ButtonLink = ReactRouterBootstrap.ButtonLink;
 
 var Fluxxor = require("Fluxxor");
 var FluxMixin = Fluxxor.FluxMixin(React);
-var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var Layout = React.createClass({
-  mixins: [FluxMixin, StoreWatchMixin("authStore")],
+  mixins: [FluxMixin],
+
   render: function() {
     var authStore = this.getFlux().store("authStore");
     if (!authStore.isLoggedIn()) {

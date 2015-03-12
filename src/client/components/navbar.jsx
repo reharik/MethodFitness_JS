@@ -22,12 +22,14 @@ var AppNavbar = React.createClass({
   },
   mixins: [FluxMixin, StoreWatchMixin("authStore")],
 
+  getInitialState: function() {
+    this.getFlux().actions.fetchUser();
+    return {user:null};
+  },
+
   getStateFromFlux: function(){
     var authStore = this.getFlux().store("authStore");
-    debugger;
-    this.setState({
-      user: authStore.getUser()
-    });
+    return authStore.getUser();
   },
 
   renderBrand: function () {

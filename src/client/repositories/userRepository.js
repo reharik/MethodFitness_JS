@@ -18,7 +18,7 @@ module.exports = {
           _user = parseUser(res.body.user);
           success(_user);
         }else{
-          error(err);
+          success();
         }
       });
   },

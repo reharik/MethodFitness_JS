@@ -16,6 +16,8 @@ var Root = React.createClass({
   render: function () {
     return (
       <div>
+      <Navbar brand="Method Fitness" />
+      <Layout />
       </div>
     );
   }

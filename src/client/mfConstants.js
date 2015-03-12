@@ -8,7 +8,7 @@ module.exports = {
     LOAD_CLIENTS: "LoadClients",
     LOAD_CLIENTS_SUCCESS: "LoadClientsSuccess",
     LOAD_CLIENTS_FAIL: "LoadClientsFail",
-
+  },
     USERS:{
       FETCH_USER: "FetchUser",
       FETCH_USER_SUCCESS: "FetchUserSuccess",
@@ -26,5 +26,4 @@ module.exports = {
 
 
 
-  }
 };
