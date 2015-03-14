@@ -10,7 +10,7 @@ var FluxMixin = Fluxxor.FluxMixin(React),
 
 module.exports = React.createClass({
   displayName: "Client List",
-  mixins: [StoreWatchMixin("clientSummaryStore")],//,Authentication ],
+  mixins: [FluxMixin, StoreWatchMixin("clientSummaryStore")],//,Authentication ],
 
 
 
