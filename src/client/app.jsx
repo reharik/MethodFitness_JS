@@ -12,16 +12,10 @@ var NotFoundRoute = Router.NotFoundRoute;
 
   // stores
 var AuthStore = Fluxxor.createStore({
-  initalize: function () {
+  initialize: function () {
     this.loading = false;
     this.error = null;
     this._user = null;
-
-    if (that._initCalled) {
-      return;
-    }
-    _initCalled = true;
-    this.fetchUser();
 
     this.bindActions(
       constants.USERS.FETCH_USER, this.onFetchUser,
@@ -139,7 +133,7 @@ var actions = {
     this.dispatch(constants.USERS.FETCH_USER, {});
 
     userRepository.fetchUser(function(payload) {
-      this.dispatch(constants.USERS.FETCH_USER_SUCCESS, {user: payload?payload.user:null});
+      this.dispatch(constants.USERS.FETCH_USER_SUCCESS, {user: payload?payload.user:{}});
     }.bind(this), function(error) {
       this.dispatch(constants.USERS.FETCH_USER_FAIL, {error: error});
     }.bind(this));
@@ -165,13 +159,13 @@ var actions = {
 };
 
 var clientStore = Fluxxor.createStore({
-  initalize: function(){
+  initialize: function(){
     this.loading = false;
     this.error = null;
     this.clients = [];
 
     this.bindActions(
-      constants.TRAINER_GENERATED_CLIENT_SIGNED_UP, this.onTrainerGeneratedClientSignedUp
+      constants.CLIENTS.TRAINER_GENERATED_CLIENT_SIGNED_UP, this.onTrainerGeneratedClientSignedUp
     );
   },
   onTrainerGeneratedClientSignedUp: function(payload){
@@ -186,7 +180,7 @@ var clientStore = Fluxxor.createStore({
 });
 
 var clientSummaryStore = Fluxxor.createStore({
-  initalize: function() {
+  initialize: function() {
     this.loading = false;
     this.error = null;
     this.clientSummaries = [];
@@ -272,10 +266,10 @@ var SignOut = require("./pages/signout");
 var Navbar = require("./components/navbar");
 var Layout = require("./pages/layout");
 
-
+var FluxMixin = Fluxxor.FluxMixin(React);
 var Root = React.createClass({
   displayName: "Root",
-
+  mixins: [FluxMixin],
   getStateFromFlux: function(){
     return{
     };
@@ -284,8 +278,8 @@ var Root = React.createClass({
   render: function () {
     return (
       <div>
-        <Navbar brand="Method Fitness" flux={flux} />
-        <Layout flux={flux} />
+        <Navbar brand="Method Fitness"  />
+        <Layout  />
       </div>
     );
   }
@@ -307,7 +301,7 @@ var container = document.getElementById("content");
 
 Router.run(routes, function(Handler) {
   React.render(
-    <Handler flux={flux} />,
+    <Handler flux={flux} params="test" />,
     container
   );
 });

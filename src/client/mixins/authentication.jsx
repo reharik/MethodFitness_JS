@@ -1,9 +1,9 @@
 var SignIn = require("../pages/signin");
-//var AuthStore = require("../stores/authStore");
 
 var Authentication = {
   statics: {
-    willTransitionTo: function (transition) {
+    willTransitionTo: function (transition, params) {
+      debugger;
       var authStore = this.getFlux().store("authStore");
       if (!authStore.isLoggedIn()) {
         SignIn.attemptedTransition = transition;

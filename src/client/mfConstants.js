@@ -17,7 +17,7 @@ module.exports = {
       SIGN_IN_SUCCESS: "SignInSuccess",
       SIGN_IN_FAIL: "SignInFail",
       SIGN_OUT: "SignOut",
-      SIGN_OUT_SUCCES: "SignOutSuccess",
+      SIGN_OUT_SUCCESS: "SignOutSuccess",
       SIGN_OUT_FAIL: "SignOutFail",
       SIGN_UP: "SignUp",
       SIGN_UP_SUCCESS: "SignUpSuccess",
