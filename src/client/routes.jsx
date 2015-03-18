@@ -17,7 +17,7 @@ var SignOut = require("./pages/signout");
 
 
 var routes = (
-  <Route handler={Root}>
+  <Route handler={Root} path="/" >
     <DefaultRoute name="client-list" handler={ListClients} />
     <Route name="add-client" path="/addclient" handler={AddClient} />
     <Route name="profile" path="/profile" handler={NullPage} />

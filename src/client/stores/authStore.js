@@ -95,7 +95,7 @@ var AuthStore = Fluxxor.createStore({
   },
 
   isLoggedIn: function () {
-    return this._user !== null;
+    return this._user !== null && this._user !== {} ;
   },
   getUser: function () {
     return this._user;

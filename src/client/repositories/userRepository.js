@@ -37,7 +37,7 @@ module.exports = {
   },
 
   signIn:function(data, success, error){
-    _postAndHandleParseUser(URLS.SIGN_IN, data, success, error);
+    _postAndHandleParseUser(URLS.AUTH, data, success, error);
   }
 
 };
@@ -46,7 +46,7 @@ function _postAndHandleParseUser (url, data, success, error) {
   request.post(url)
     .set("Accept", "application/json")
     .set("Content-Type", "application/json")
-    .send({ username: username, password: password })
+    .send({ username: data.username, password: data.password })
     .end(function (err, res) {
       if (!err && res.body && res.body.user) {
         _user = parseUser(res.body.user);
