@@ -8,6 +8,7 @@ var Row = require("react-bootstrap").Row;
 var Col = require("react-bootstrap").Col;
 var Input = require("react-bootstrap").Input;
 var Button = require("react-bootstrap").Button;
+var constants = require("./../mfConstants");
 
 
 var Fluxxor = require("Fluxxor");
@@ -23,7 +24,6 @@ var SignIn = React.createClass({
   },
 
   getStateFromFlux: function(){
-    this.retryTransition();
     return{};
   },
 
@@ -31,7 +31,7 @@ var SignIn = React.createClass({
     e.preventDefault();
     var username = this.refs.username.getValue();
     var password = this.refs.password.getValue();
-    this.getFlux().actions.signIn(username,password);
+    this.getFlux().actions[constants.USERS.SIGN_IN](username,password);
 
 
 

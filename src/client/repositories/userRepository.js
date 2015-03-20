@@ -9,7 +9,7 @@ var URLS = {
 
 module.exports = {
 
-  fetchUser: function (success, error) {
+  FetchUser: function (success, error) {
     request.get(URLS.AUTH)
       .set("Accept", "application/json")
       .set("Content-Type", "application/json")
@@ -23,7 +23,7 @@ module.exports = {
       });
   },
 
-  signOut: function (success, error) {
+  SignOut: function (success, error) {
     request.get(URLS.SIGN_OUT)
       .set("Accept", "application/json")
       .set("Content-Type", "application/json")
@@ -36,7 +36,7 @@ module.exports = {
       });
   },
 
-  signIn:function(data, success, error){
+  SignIn:function(data, success, error){
     _postAndHandleParseUser(URLS.AUTH, data, success, error);
   }
 

@@ -4,6 +4,7 @@ var passport = require("koa-passport"),
 
 exports.signIn = function *() {
   var ctx = this;
+  console.log("arrived at login");
   yield* passport.authenticate("local", function*(err, user, info) {
     if (err) {
       throw err;

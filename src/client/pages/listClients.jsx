@@ -4,25 +4,26 @@ var Fluxxor = require("fluxxor");
 var Griddle = require('griddle-react');
 var Authentication = require("../mixins/authentication");
 var _ = require("lodash");
+var constants = require("./../mfConstants");
+
 
 var FluxMixin = Fluxxor.FluxMixin(React),
   StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 module.exports = React.createClass({
   displayName: "Client List",
-  mixins: [FluxMixin, StoreWatchMixin("clientSummaryStore")],//,Authentication ],
+  mixins: [FluxMixin, StoreWatchMixin("clientSummaryStore"),Authentication ],
 
-  getInitialState: function() {
-    this.getFlux().actions.loadClients();
+  statics: {
+    resolve: constants.CLIENTS.LOAD_CLIENTS
   },
 
   getStateFromFlux: function(){
     var store = this.getFlux().store("clientSummaryStore");
-    var clientSummaries = store.getClientSummaries();
       return {
       loading: store.getLoading(),
       error: store.getError(),
-      clientSummaries: clientSummaries
+      clientSummaries: store.getClientSummaries()
     };
   },
 

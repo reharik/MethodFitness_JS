@@ -14,7 +14,7 @@ var actions = {
       this.dispatch(constants.CLIENTS.TRAINER_GENERATED_CLIENT_SIGNED_UP_FAIL, {error: error});
     }.bind(this));
   },
-  loadClients: function(){
+  LoadClients: function(){
     this.dispatch(constants.CLIENTS.LOAD_CLIENTS, {});
 
     clientRepository.loadClientSummaries(function(payload) {
@@ -23,25 +23,25 @@ var actions = {
       this.dispatch(constants.CLIENTS.LOAD_CLIENTS_FAIL, {error: error});
     }.bind(this));
   },
-  fetchUser: function(){
+  FetchUser: function(){
     this.dispatch(constants.USERS.FETCH_USER, {});
 
-    userRepository.fetchUser(function(payload) {
+    userRepository[constants.USERS.FETCH_USER](function(payload) {
       this.dispatch(constants.USERS.FETCH_USER_SUCCESS, {user: payload?payload.user:{}});
     }.bind(this), function(error) {
       this.dispatch(constants.USERS.FETCH_USER_FAIL, {error: error});
     }.bind(this));
   },
-  signIn: function(username, password){
+  SignIn: function(username, password){
     this.dispatch(constants.USERS.SIGN_IN, {});
 
-    userRepository.signIn({ username: username, password: password },function(payload) {
+    userRepository[constants.USERS.SIGN_IN]({ username: username, password: password },function(payload) {
       this.dispatch(constants.USERS.SIGN_IN_SUCCESS, {user: payload.user});
     }.bind(this), function(error) {
       this.dispatch(constants.USERS.SIGN_IN_FAIL, {error: error});
     }.bind(this));
   },
-  signOut: function(){
+  SignOut: function(){
     this.dispatch(constants.USERS.SIGN_OUT, {});
 
     userRepository.signOut(function() {
@@ -49,7 +49,22 @@ var actions = {
     }.bind(this), function(error) {
       this.dispatch(constants.USERS.SIGN_OUT_FAIL, {error: error});
     }.bind(this));
-  }
+  },
+  SignUp: function(newUser){
+    this.dispatch(constants.USERS.SIGN_UP, {});
+
+    userRepository[constants.USERS.SIGN_UP](newUser, function(payload) {
+      userRepository[constants.USERS.FETCH_USER](function(user) {
+        payload.user = user;
+      }, function(_error){
+        this.dispatch(constants.USERS.SIGN_UP_FAIL, {error: _error});
+        return;
+      });
+      this.dispatch(constants.USERS.SIGN_UP_SUCCESS, {user: payload.user});
+    }.bind(this), function(error) {
+      this.dispatch(constants.USERS.SIGN_UP_FAIL, {error: error});
+    }.bind(this));
+  },
 };
 
 module.exports = actions;

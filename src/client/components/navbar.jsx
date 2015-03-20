@@ -14,16 +14,18 @@ var NavItemLink = ReactRouterBootstrap.NavItemLink;
 var Fluxxor = require("Fluxxor");
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+var constants = require("./../mfConstants");
+var Authentication = require("../mixins/authentication");
 
 var AppNavbar = React.createClass({
   displayName: "AppNavbar",
   propTypes: {
     brand: PropTypes.string
   },
-  mixins: [FluxMixin, StoreWatchMixin("authStore")],
+  mixins: [FluxMixin, StoreWatchMixin("authStore"), Authentication],
 
   getInitialState: function() {
-    this.getFlux().actions.fetchUser();
+    this.getFlux().actions[constants.USERS.FETCH_USER]();
     return {user:null};
   },
 

@@ -4,12 +4,15 @@ var Router = require("react-router");
 var Col = require("react-bootstrap").Col;
 var Input = require("react-bootstrap").Input;
 var Button = require("react-bootstrap").Button;
+var Fluxxor = require("fluxxor");
+var constants = require("./mfConstants");
 
-var AuthStore = require("../stores/authStore");
+var FluxMixin = Fluxxor.FluxMixin(React),
+  StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var SignUp = React.createClass({
   displayName: "SignUp",
-  mixins: [Router.Navigation],
+  mixins: [FluxMixin, StoreWatchMixin("authStore"), Router.Navigation],
 
   getInitialState: function() {
     return {};
@@ -21,12 +24,9 @@ var SignUp = React.createClass({
     var password = this.refs.password.getValue();
     var repeatPassword = this.refs.repeatPassword.getValue();
     if (password === repeatPassword && password.trim()) {
-      AuthStore.signUp(username, password, function (err, user) {
-        if (err || !user) {
-          return this.setState({ error: "Could not Create the User" });
-        }
-        this.replaceWith("index");
-      }.bind(this));
+      var _flux = this.getFlux();
+      _flux.actions[constants.USERS.SIGN_UP](username, password);
+          //return this.setState({ error: "Could not Create the User" });
     }
   },
   renderErrorBlock: function () {

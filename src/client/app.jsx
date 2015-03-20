@@ -8,6 +8,7 @@ var actions = require("./actions/actions");
 var AuthStore = require("./stores/authStore");
 var ClientStore = require("./stores/clientStore");
 var ClientSummaryStore = require("./stores/clientSummaryStore");
+var _ = require("lodash");
 
 
 //require("./less/main.less");
@@ -28,7 +29,12 @@ flux.on("dispatch", function(type, payload) {
 
 var container = document.getElementById("content");
 
-Router.run(routes, function(Handler) {
+Router.run(routes, function(Handler, State) {
+  _.each(State.routes, function(route) {
+    if (route.handler.resolve) {
+      flux.actions[route.handler.resolve]();
+    }
+  });
   React.render(
     <Handler flux={flux} />,
     container
