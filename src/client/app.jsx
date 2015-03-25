@@ -29,7 +29,7 @@ flux.on("dispatch", function(type, payload) {
 
 var container = document.getElementById("content");
 
-Router.run(routes, function(Handler, State) {
+Router.run(routes, (Handler, State) => {
   _.each(State.routes, function(route) {
     if (route.handler.resolve) {
       flux.actions[route.handler.resolve]();

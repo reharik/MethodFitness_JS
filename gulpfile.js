@@ -16,6 +16,7 @@ var sourcemaps = require("gulp-sourcemaps");
 var source = require("vinyl-source-stream");
 var envify = require("envify");
 var shim = require("browserify-shim");
+var babelify = require("babelify");
 
 // Config
 var packagejson =  require("./package");
@@ -54,6 +55,7 @@ gulp.task("app-compile", ["jsx-compile", "copy-js"], function() {
     .require("react")
     .transform(shim)
     .transform(envify)
+    .transform(babelify)
     .bundle()
     .pipe(source("app.js"))
     .pipe(gulp.dest(paths.out.public));
@@ -97,7 +99,7 @@ gulp.task("write-build-info", function (cb) {
   });
 });
 
-gulp.task("install", ["app-compile", "admin-compile", "less-compile", "write-build-info" ]);
+gulp.task("install", ["app-compile", "less-compile", "write-build-info" ]);
 
 gulp.task("watch", function () {
   gulp.watch(paths.in.jsx, ["app-compile", "admin-compile"]);

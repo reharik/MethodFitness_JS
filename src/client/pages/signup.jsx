@@ -5,27 +5,39 @@ var Col = require("react-bootstrap").Col;
 var Input = require("react-bootstrap").Input;
 var Button = require("react-bootstrap").Button;
 var Fluxxor = require("fluxxor");
-var constants = require("./mfConstants");
+var constants = require("./../mfConstants");
 
 var FluxMixin = Fluxxor.FluxMixin(React),
   StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var SignUp = React.createClass({
   displayName: "SignUp",
-  mixins: [FluxMixin, StoreWatchMixin("authStore"), Router.Navigation],
+  mixins: [FluxMixin, StoreWatchMixin("authStore")],
+  contextTypes: { router: React.PropTypes.func.isRequired },
 
-  getInitialState: function() {
-    return {};
+  getStateFromFlux: function(){
+    var store = this.getFlux().store("authStore");
+    if(store.isLoggedIn()){
+      this.context.router.transitionTo("/");
+    }
+    return {
+      loading: store.getLoading(),
+      error: store.getError()
+    };
   },
 
   handleSubmit: function (e) {
     e.preventDefault();
-    var username = this.refs.username.getValue();
-    var password = this.refs.password.getValue();
+    var newUser = {
+    'username': this.refs.username.getValue(),
+    'firstName': this.refs.firstName.getValue(),
+    'lastName': this.refs.lastName.getValue(),
+    'email': this.refs.email.getValue(),
+    'password': this.refs.password.getValue()};
     var repeatPassword = this.refs.repeatPassword.getValue();
-    if (password === repeatPassword && password.trim()) {
+    if (newUser.password === repeatPassword && newUser.password.trim()) {
       var _flux = this.getFlux();
-      _flux.actions[constants.USERS.SIGN_UP](username, password);
+      _flux.actions[constants.USERS.SIGN_UP](newUser);
           //return this.setState({ error: "Could not Create the User" });
     }
   },

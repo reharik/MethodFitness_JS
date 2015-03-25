@@ -46,9 +46,9 @@
     "mongoose-uuid": "0.0.2",
     "node-uuid": "^1.4.1",
     "passport-local": "1.0.x",
-    "react": "0.12.x",
+    "react": "0.13.x",
     "react-bootstrap": "^0.13.3",
-    "react-router": "0.12.x",
+    "react-router": "0.13.x",
     "react-router-bootstrap": "^0.8.3",
     "superagent": "0.21.x",
     "swig": "1.4.x",
@@ -56,6 +56,7 @@
     "vinyl-source-stream": "1.0.x"
   },
   "devDependencies": {
+    "babelify": "^5.0.4",
     "browserify": "8.1.x",
     "browserify-shim": "^3.8.2",
     "envify": "3.2.x",

@@ -1,70 +1,70 @@
+"use strict";
 
 var constants = require("./../mfConstants");
 
 var clientRepository = require("./../repositories/clientRepository");
 var userRepository = require("./../repositories/userRepository");
+var co = require('co');
+var Json = require('JSON');
 
 var actions = {
-  TrainerGeneratedClientSignedUp: function(client){
+  TrainerGeneratedClientSignedUp: function (client) {
     this.dispatch(constants.CLIENTS.TRAINER_GENERATED_CLIENT_SIGNED_UP, {client: client});
 
-    clientRepository.save(function(client) {
-      this.dispatch(constants.CLIENTS.TRAINER_GENERATED_CLIENT_SIGNED_UP_SUCCESS, {words: words});
-    }.bind(this), function(error) {
+    clientRepository.save(function (client) {
+      this.dispatch(constants.CLIENTS.TRAINER_GENERATED_CLIENT_SIGNED_UP_SUCCESS, {client: client});
+    }.bind(this), function (error) {
       this.dispatch(constants.CLIENTS.TRAINER_GENERATED_CLIENT_SIGNED_UP_FAIL, {error: error});
     }.bind(this));
   },
-  LoadClients: function(){
-    this.dispatch(constants.CLIENTS.LOAD_CLIENTS, {});
+  LoadClientSummaries: function () {
+    this.dispatch(constants.CLIENTS.LOAD_CLIENT_SUMMARIES, {});
 
-    clientRepository.loadClientSummaries(function(payload) {
-      this.dispatch(constants.CLIENTS.LOAD_CLIENTS_SUCCESS, {clientSummaries: payload.clientSummaries});
-    }.bind(this), function(error) {
-      this.dispatch(constants.CLIENTS.LOAD_CLIENTS_FAIL, {error: error});
+    clientRepository.loadClientSummaries().then(function (payload) {
+      this.dispatch(constants.CLIENTS.LOAD_CLIENT_SUMMARIES_SUCCESS, {clientSummaries: payload.clientSummaries});
+    }.bind(this), function (error) {
+      this.dispatch(constants.CLIENTS.LOAD_CLIENT_SUMMARIES_FAIL, {error: error});
     }.bind(this));
   },
-  FetchUser: function(){
+  FetchUser: function (){
     this.dispatch(constants.USERS.FETCH_USER, {});
 
-    userRepository[constants.USERS.FETCH_USER](function(payload) {
-      this.dispatch(constants.USERS.FETCH_USER_SUCCESS, {user: payload?payload.user:{}});
+    userRepository[constants.USERS.FETCH_USER]().then(function (payload) {
+      this.dispatch(constants.USERS.FETCH_USER_SUCCESS, {user: payload ? payload.user : {}});
     }.bind(this), function(error) {
       this.dispatch(constants.USERS.FETCH_USER_FAIL, {error: error});
     }.bind(this));
   },
-  SignIn: function(username, password){
+  SignIn: function(username, password) {
     this.dispatch(constants.USERS.SIGN_IN, {});
 
-    userRepository[constants.USERS.SIGN_IN]({ username: username, password: password },function(payload) {
+    userRepository[constants.USERS.SIGN_IN]({ username: username, password: password }).then(function (payload) {
       this.dispatch(constants.USERS.SIGN_IN_SUCCESS, {user: payload.user});
-    }.bind(this), function(error) {
-      this.dispatch(constants.USERS.SIGN_IN_FAIL, {error: error});
+    }.bind(this), function (error) {
+        this.dispatch(constants.USERS.SIGN_IN_FAIL, {error: error});
     }.bind(this));
   },
-  SignOut: function(){
+  SignOut: function () {
     this.dispatch(constants.USERS.SIGN_OUT, {});
 
-    userRepository.signOut(function() {
+    userRepository[constants.USERS.SIGN_OUT]().then(function () {
       this.dispatch(constants.USERS.SIGN_OUT_SUCCESS, {});
-    }.bind(this), function(error) {
+    }.bind(this), function (error) {
       this.dispatch(constants.USERS.SIGN_OUT_FAIL, {error: error});
     }.bind(this));
   },
-  SignUp: function(newUser){
+  SignUp: function(newUser) {
     this.dispatch(constants.USERS.SIGN_UP, {});
-
-    userRepository[constants.USERS.SIGN_UP](newUser, function(payload) {
-      userRepository[constants.USERS.FETCH_USER](function(user) {
-        payload.user = user;
-      }, function(_error){
-        this.dispatch(constants.USERS.SIGN_UP_FAIL, {error: _error});
-        return;
-      });
-      this.dispatch(constants.USERS.SIGN_UP_SUCCESS, {user: payload.user});
-    }.bind(this), function(error) {
-      this.dispatch(constants.USERS.SIGN_UP_FAIL, {error: error});
-    }.bind(this));
-  },
+    co(function *(){
+      yield userRepository[constants.USERS.SIGN_UP](newUser);
+      return yield userRepository[constants.USERS.FETCH_USER]();
+    }).then(
+      function(payload){
+        this.dispatch(constants.USERS.SIGN_UP_SUCCESS, {user: payload.user});}.bind(this),
+      function(error){
+        this.dispatch(constants.USERS.SIGN_UP_FAIL, {error: error});}.bind(this)
+    );
+  }
 };
 
 module.exports = actions;

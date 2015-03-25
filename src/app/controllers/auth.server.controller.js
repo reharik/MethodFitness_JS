@@ -1,5 +1,4 @@
 var passport = require("koa-passport"),
-    parse = require('co-body'),
     User = require("mongoose").model("User");
 
 exports.signIn = function *() {
@@ -18,11 +17,13 @@ exports.signIn = function *() {
   }).call(this);
 };
 
-exports.getCurrentUser = function *() {
+exports.checkAuth = function *() {
   if (this.passport.user) {
-    this.body = { user: this.passport.user };
+    this.body = {user: this.passport.user};
+    this.status = 200;
+  } else{
+    this.status = 401;
   }
-  this.status = 200;
 };
 
 exports.signOut = function *() {
@@ -32,7 +33,7 @@ exports.signOut = function *() {
 };
 
 exports.createUser = function *() {
-  var body = yield parse(this);
+  var body = yield this.request.body;
 
   if (!body) {
     this.throw("The body is empty", 400);

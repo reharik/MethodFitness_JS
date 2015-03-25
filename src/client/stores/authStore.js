@@ -68,7 +68,7 @@ var AuthStore = Fluxxor.createStore({
     this.loading = false;
     this.error = null;
 
-    this._user = payload.user;
+    this._user = null;
     this.emit("change");
   },
   onSignOutFail: function (payload) {
@@ -83,7 +83,7 @@ var AuthStore = Fluxxor.createStore({
   },
   onSignUpSuccess: function (payload) {
     this.loading = false;
-    this.error = null;
+    this.error = "";
 
     this._user = payload.user;
     this.emit("change");
@@ -99,6 +99,12 @@ var AuthStore = Fluxxor.createStore({
   },
   getUser: function () {
     return this._user;
+  },
+  getLoading: function () {
+    return this.loading;
+  },
+  getError: function () {
+    return this.error;
   }
 
 });//

@@ -11,41 +11,27 @@ var mongoose = require('mongoose'),
  */
 var ClientSummarySchema = new Schema({
     _id: {
-        type: String,
-        default: '',
-        trim: true
+        type: String
     },
     FirstName: {
-		type: String,
-		default: '',
-		required: 'Please fill Client first name',
-		trim: true
-	},
+      type: String
+	  },
     LastName: {
-        type: String,
-        default: '',
-        required: 'Please fill Client last name',
-        trim: true
+        type: String
     },
     EmailAddress: {
-        type: String,
-        default: '',
-        required: 'Please fill Client email address',
-        trim: true
+        type: String
     },
     Phone: {
-        type: String,
-        default: '',
-        trim: true
+        type: String
     },
     Archived: {
         type: Boolean,
         default: false
     },
-	ArchiveDate: {
-		type: Date,
-		default: Date.now
-	}
+	  ArchiveDate: {
+      type: Date
+    }
 });
 
 mongoose.model('ClientSummary', ClientSummarySchema);

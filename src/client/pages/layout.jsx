@@ -13,11 +13,12 @@ var ReactRouterBootstrap = require('react-router-bootstrap');
 var ButtonLink = ReactRouterBootstrap.ButtonLink;
 
 var Fluxxor = require("Fluxxor");
-var FluxMixin = Fluxxor.FluxMixin(React);
+var FluxMixin = Fluxxor.FluxMixin(React),
+  StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var Layout = React.createClass({
-  mixins: [FluxMixin],
-
+  mixins: [FluxMixin,StoreWatchMixin("authStore")],
+  getStateFromFlux: function(){return{}},
   render: function() {
     var authStore = this.getFlux().store("authStore");
     if (!authStore.isLoggedIn()) {

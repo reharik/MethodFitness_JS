@@ -1,6 +1,8 @@
+/*jslint node: true */
 var router = require("koa-router");
 
 var clientController = require("../controllers/client.server.controller");
+var clientListController = require("../controllers/clientList.server.controller");
 var indexController = require("../controllers/index.server.controller");
 var authController = require("../controllers/auth.server.controller");
 
@@ -20,13 +22,14 @@ module.exports = function (app, passport) {
     yield indexController.index.apply(this);
   });
 
-  app.get("/auth", authController.getCurrentUser);
+  app.get("/auth", authController.checkAuth);
   app.post("/auth", authController.signIn);
 
   app.all("/signout", authController.signOut);
   app.post("/signup", authController.createUser);
 
   // secured routes
+  app.get("/clients", secured, clientListController.clients);
   app.post("/client/create", secured, clientController.create);
 
 

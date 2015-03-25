@@ -1,17 +1,20 @@
 var React = require("react");
-var AuthStore = require("../stores/authStore");
 var Router = require("react-router");
+var constants = require("./../mfConstants");
 
 var SignOut = React.createClass({
-  mixins: [ Router.Navigation ],
 
-  componentWillMount: function () {
-    AuthStore.signOut(function () {
-      this.replaceWith("index");
-    }.bind(this));
+  statics: {
+    resolve: constants.USERS.SIGN_OUT
+  },
+  contextTypes: { router: React.PropTypes.func.isRequired },
+  getInitialState: function() {
+    return {};
   },
 
   render: function () {
+    this.context.router.transitionTo("sign-in");
+
     return null;
   }
 });

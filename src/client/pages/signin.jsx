@@ -17,14 +17,22 @@ var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var SignIn = React.createClass({
   displayName: "SignInPage",
-  mixins: [FluxMixin, StoreWatchMixin("authStore"), Router.Navigation ],
+  mixins: [FluxMixin, StoreWatchMixin("authStore") ],
+  contextTypes: { router: React.PropTypes.func.isRequired },
 
   statics: {
     attemptedTransition: null
   },
 
   getStateFromFlux: function(){
-    return{};
+    var store = this.getFlux().store("authStore");
+    if(store.isLoggedIn()){
+      this.retryTransition();
+    }
+    return {
+      loading: store.getLoading(),
+      error: store.getError()
+    };
   },
 
   handleSubmit: function (e) {
@@ -32,26 +40,15 @@ var SignIn = React.createClass({
     var username = this.refs.username.getValue();
     var password = this.refs.password.getValue();
     this.getFlux().actions[constants.USERS.SIGN_IN](username,password);
-
-
-
-
-    //AuthStore.signIn(username, password, function (err, user) {
-    //  if (err || !user) {
-    //    return this.setState({ error: true });
-    //  }
-    //  this.retryTransition();
-    //
-    //}.bind(this));
   },
 
   retryTransition: function () {
-    if (SignIn.attemptedTransition) {
+    if (SignIn.attemptedTransition && SignIn.attemptedTransition.path=="sign-in") {
       var transition = SignIn.attemptedTransition;
       SignIn.attemptedTransition = null;
       transition.retry();
     } else {
-      this.replaceWith("client-list");
+      this.context.router.replaceWith("client-list");
     }
   },
   renderErrorBlock: function () {
